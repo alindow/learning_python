@@ -1,6 +1,12 @@
 import os
 
 def load(name):
+    '''
+    This method creates and loads a new journal.
+
+    :param name: This Base name of the journal to load.
+    :return: A new journal structure to populatee with the file data.
+    '''
     data = []
     filename = get_full_pathname(name)
     if(os.path.exists(filename)):
@@ -10,6 +16,14 @@ def load(name):
     return data
 
 def save(name, journal_data):
+    '''
+    This Method saves a journal strucutre
+
+    :param name: This Base name of the journal to save.
+    :param journal_data: Journal Data to save
+    :return: None
+    '''
+
     filename = get_full_pathname(name)
     print("...... speichern unter {}".format(filename))
 
