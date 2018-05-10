@@ -43,5 +43,5 @@ def add_entry(data):
     text = input("Gib den neuen Eintrag ein. <Enter> beendet Eingabe: ")
     journal.add_entry(text, data)
 
-
-main()
+if __name__ == '__main__':
+    main()
