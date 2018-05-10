@@ -1,4 +1,6 @@
 */.idea
 */venv/
+*/__pycache__/
+/04_Journal/journals/*.jrl
 /venv/
 /.idea/

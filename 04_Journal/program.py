@@ -1,3 +1,6 @@
+import journal
+
+
 def main():
     print_header()
     run_event_loop()
@@ -13,7 +16,9 @@ def run_event_loop():
     print("Was möchtest Du machen?")
 
     cmd = None
-    journal_data = []
+    journal_name = 'default'
+
+    journal_data = journal.load(journal_name)
 
     while cmd != 'x':
         cmd = input("[L]iste der Einträge, [A]nfügen eines Eintrags, [X] Beenden? ").strip().lower()
@@ -24,6 +29,7 @@ def run_event_loop():
         elif cmd != 'x':
             print("Entschuldigung, das Kommando {} kenne ich nicht".format(cmd))
     print("Auf Wiedersehen")
+    journal.save(journal_name, journal_data)
 
 
 def list_entries(data):
@@ -35,7 +41,7 @@ def list_entries(data):
 
 def add_entry(data):
     text = input("Gib den neuen Eintrag ein. <Enter> beendet Eingabe: ")
-    data.append(text)
+    journal.add_entry(text, data)
 
 
 main()
