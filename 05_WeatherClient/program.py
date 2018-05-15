@@ -9,6 +9,13 @@ def main():
     # parse the html
     get_weather_from_html(html)
 
+    report = get_weather_from_html(html)
+
+    print("The temperature in {} is {} and {}".format (
+        report[0],
+        report[2],
+        report[1]
+    ))
     # display for the forecast
     print("Hello from main")
 
@@ -37,7 +44,7 @@ def get_weather_from_html(html):
     temp = soup.find(class_='current-temp').get_text()
     temp=cleanup(temp)
     temp = find_temp_and_scale(temp)
-    print(loc,cond,temp)
+    return loc,cond,temp
 
 def find_city_and_state(loc:str):
     parts = loc.split('\n')
