@@ -2,7 +2,7 @@ import requests
 import collections
 
 def search(search):
-    api_key="your-key-here"
+    api_key="408ba11ecd062d4001fee034de52a73c"
 
     page = 1
     while True:
@@ -34,7 +34,11 @@ def show_response(movie_data,page):
 
 def main():
     print_header()
-    search("runner")
+    while True:
+        x = input("Suchbegriff: ")
+        if not x or x.strip().lower() == 'x':
+            break
+        search(x)
 
 def print_header():
     print("---------------------------------")
