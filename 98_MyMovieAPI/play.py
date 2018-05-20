@@ -1,8 +1,13 @@
+import os
+
 import requests
 import collections
 
 def search(search):
-    api_key="408ba11ecd062d4001fee034de52a73c"
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    file = os.path.join(basedir, "key.txt")
+    with open(file, 'r') as fin:
+        api_key=fin.readline().strip()
 
     page = 1
     while True:
