@@ -9,11 +9,8 @@ def main():
     html = get_html_from_web()
 
     # parse the html
-    report = get_traffic_list_from_html(html)
+    get_traffic_list_from_html(html)
 
-    print("{} um {}".format (
-        report, datetime.datetime.now()
-    ))
 
 def print_header():
     print("----------------------------")
@@ -33,11 +30,10 @@ def get_traffic_list_from_html(html):
     # print(soup)
     soup.find(id='verlauf_inner_content')
     title = soup.find(id='verlauf_inner_content').find('h1').get_text()
-    title = cleanup(title)
+    print("{} am {} um {}".format(cleanup(title), datetime.datetime.now().date(), datetime.datetime.now().time()))
     for x in soup.find_all(class_='verkehr'):
         print(cleanup(x.get_text()))
         print("********************")
-    return title
 
 
 def cleanup(text : str):
