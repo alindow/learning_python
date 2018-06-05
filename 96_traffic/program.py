@@ -6,10 +6,13 @@ import re
 
 def main():
     print_header()
-    html = get_html_from_web()
+    try:
+        html = get_html_from_web()
 
-    # parse the html
-    get_traffic_list_from_html(html)
+        # parse the html
+        get_traffic_list_from_html(html)
+    except Exception as error:
+        print("Error: {}".format(error))
 
 
 def print_header():
@@ -22,15 +25,22 @@ def print_header():
 def get_html_from_web():
     url = "http://www.radiobremen.de/bremenvier/programm/vier-news/verkehr130.html"
     response = requests.get(url)
-    return response.text
+    if response.status_code == requests.codes.ok:
+        return response.text
+    else:
+        raise Exception("Unexpected answer; HTTP-Status: {}".format(response.status_code))
 
 
 def get_traffic_list_from_html(html):
     soup = bs4.BeautifulSoup(html, "html.parser")
     # print(soup)
     soup.find(id='verlauf_inner_content')
-    title = soup.find(id='verlauf_inner_content').find('h1').get_text()
-    print("{} am {} um {}".format(cleanup(title), datetime.datetime.now().date(), datetime.datetime.now().time()))
+    title="- Verkehrsmeldungen -"
+    if soup.find(id='verlauf_inner_content'):
+        title = soup.find(id='verlauf_inner_content').find('h1').get_text()
+        print("{} am {} um {}".format(cleanup(title), datetime.datetime.now().date(), datetime.datetime.now().time()))
+    else:
+        print("Kein Zugriff")
     for x in soup.find_all(class_='verkehr'):
         print(cleanup(x.get_text()))
         print("********************")
