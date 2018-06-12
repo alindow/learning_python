@@ -23,7 +23,7 @@ def print_header():
 
 
 def get_html_from_web():
-    url = "http://www.radiobremen.de/bremenvier/programm/vier-news/verkehr130.html"
+    url = "https://www.radiobremen.de/bremenvier/programm/vier-news/verkehr130.html"
     response = requests.get(url)
     if response.status_code == requests.codes.ok:
         return response.text
