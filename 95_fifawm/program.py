@@ -64,7 +64,7 @@ def load_games(conn, filename):
 
 
 
-def show_data(conn, sql_query):
+def show_groups(conn, sql_query):
     c = conn.cursor()
     try:
         c = conn.cursor()
@@ -74,6 +74,17 @@ def show_data(conn, sql_query):
             for i in (1,2,3,4):
                 print("nat = ", row[i])
             print()
+    except Error as e:
+        print(e)
+
+
+def show_games(conn, sql_query):
+    c = conn.cursor()
+    try:
+        c = conn.cursor()
+        cursor = c.execute(sql_query)
+        for row in cursor:
+            print("{} - {} {} - {} {}".format(row[0], row[1], row[2], row[3], row[4]))
     except Error as e:
         print(e)
 
@@ -121,6 +132,13 @@ def main():
                                  join nation as n4 on nation4 = n4.iaaf
                                  ;"""
 
+    sql_show_games = """ select  spiel.zeit, n1.name, spiel.tore1, n2.name, spiel.tore2
+                                 from spiel 
+                                 join nation as n1 on nation1 = n1.iaaf  
+                                 join nation as n2 on nation2 = n2.iaaf 
+                                 ;"""
+
+
 
     conn = create_connection(database)
     if conn is not None:
@@ -130,10 +148,10 @@ def main():
         create_sql_stmt(conn, sql_create_gruppe_table)
         load_nations(conn, nation)
         load_groups(conn, group)
-
-        show_data(conn, sql_show_groups)
-
         load_games(conn, game)
+
+        show_groups(conn, sql_show_groups)
+        show_games(conn, sql_show_games)
 
         conn.close()
 

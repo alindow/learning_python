@@ -12,9 +12,11 @@ Datenbankbasiertes WM Programm für die Fußball-WM 2018
         * Nationen mit IAAF Codes
         * Encoding erstmal ausgeklammert
         * Gruppen geladen
-        * Spiele laden
+        * Spiele geladen
   4. Show Data
         * Gruppen angezeigt
+        * Spiele angezeigt
   
 (1) http://www.sqlitetutorial.net/sqlite-python/creating-database/
+
 (2) https://de.wikipedia.org/wiki/Liste_der_IAAF-L%C3%A4nder-Codes
