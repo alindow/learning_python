@@ -51,6 +51,18 @@ def load_groups(conn, filename):
     c.executemany("INSERT INTO gruppe (name, nation1, nation2,nation3,nation4) VALUES (?, ?, ?, ?, ?);", to_db)
     conn.commit()
 
+def load_games(conn, filename):
+    c = conn.cursor()
+    with open(filename, 'r') as fin:
+        # `with` statement available in 2.5+
+        # csv.DictReader uses first line in file for column headings by default
+        dr = csv.DictReader(fin)  # comma is default delimiter
+        to_db = [(i['zeit'], i['nation1'], i['nation2'], i['tore1'], i['tore2']) for i in dr]
+
+    c.executemany("INSERT INTO spiel (zeit, nation1, nation2, tore1, tore2) VALUES (?, ?, ?, ?, ?);", to_db)
+    conn.commit()
+
+
 
 def show_data(conn, sql_query):
     c = conn.cursor()
@@ -71,6 +83,7 @@ def main():
     database = "C:\\sqlite\db\pythonsql.db"
     nation = "teilnehmer.csv"
     group = "gruppe.csv"
+    game = "spiel.csv"
 
     sql_create_nation_table = """ CREATE TABLE IF NOT EXISTS nation (
                                             iaaf text PRIMARY KEY,
@@ -90,8 +103,12 @@ def main():
                                         ); """
 
     sql_create_spiel_table = """ CREATE TABLE IF NOT EXISTS spiel (
+                                            id integer PRIMARY KEY AUTOINCREMENT,
+                                            zeit    datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
                                             nation1 text NOT NULL,
                                             nation2 text NOT NULL,
+                                            tore1   integer NOT NULL DEFAULT 0,
+                                            tore2   integer NOT NULL DEFAULT 0,
                                                  FOREIGN KEY (nation1) REFERENCES nation(isaaf),
                                                  FOREIGN KEY (nation2) REFERENCES nation(isaaf)
                                         ); """
@@ -115,6 +132,8 @@ def main():
         load_groups(conn, group)
 
         show_data(conn, sql_show_groups)
+
+        load_games(conn, game)
 
         conn.close()
 

@@ -12,6 +12,7 @@ Datenbankbasiertes WM Programm für die Fußball-WM 2018
         * Nationen mit IAAF Codes
         * Encoding erstmal ausgeklammert
         * Gruppen geladen
+        * Spiele laden
   4. Show Data
         * Gruppen angezeigt
   
