@@ -84,7 +84,7 @@ def show_games(conn, sql_query):
         c = conn.cursor()
         cursor = c.execute(sql_query)
         for row in cursor:
-            print("{} - {} {} - {} {}".format(row[0], row[1], row[2], row[3], row[4]))
+            print("{}\t{} {} - {} {}".format(row[0], row[1], row[2], row[3], row[4]))
     except Error as e:
         print(e)
 
