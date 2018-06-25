@@ -18,6 +18,11 @@ Datenbankbasiertes WM Programm für die Fußball-WM 2018
         * Spiele angezeigt
   5. Fair Play Data
         + gelbe und rote Karten an Spiel
+
+<pre>
+select spiel.nation1, spiel.nation2, tore1, tore2,gelb1,gelb2,rot1,rot2 from spiel join nation on spiel.nation1 = nation.iaaf join gruppe on gruppe.nation1 = nation.iaaf or gruppe.nation2 = nation.iaaf or gru
+ppe.nation3 = nation.iaaf or gruppe.nation4 = nation.iaaf where gruppe.name = 'A';
+</pre>
   
 (1) http://www.sqlitetutorial.net/sqlite-python/creating-database/
 
