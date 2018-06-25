@@ -57,9 +57,10 @@ def load_games(conn, filename):
         # `with` statement available in 2.5+
         # csv.DictReader uses first line in file for column headings by default
         dr = csv.DictReader(fin)  # comma is default delimiter
-        to_db = [(i['zeit'], i['nation1'], i['nation2'], i['tore1'], i['tore2']) for i in dr]
+        to_db = [(i['zeit'], i['nation1'], i['nation2'], i['tore1'], i['tore2'], i['gelb1'], i['gelb2'], i['rot1'], i['rot2']) for i in dr]
 
-    c.executemany("INSERT INTO spiel (zeit, nation1, nation2, tore1, tore2) VALUES (?, ?, ?, ?, ?);", to_db)
+    c.executemany("INSERT INTO spiel (zeit, nation1, nation2, tore1, tore2, gelb1, gelb2, rot1, rot2)"
+                  + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", to_db)
     conn.commit()
 
 
@@ -120,6 +121,10 @@ def main():
                                             nation2 text NOT NULL,
                                             tore1   integer NOT NULL DEFAULT 0,
                                             tore2   integer NOT NULL DEFAULT 0,
+                                            gelb1   integer NOT NULL DEFAULT 0,
+                                            gelb2   integer NOT NULL DEFAULT 0,
+                                            rot1    integer NOT NULL DEFAULT 0,
+                                            rot2    integer NOT NULL DEFAULT 0,
                                                  FOREIGN KEY (nation1) REFERENCES nation(isaaf),
                                                  FOREIGN KEY (nation2) REFERENCES nation(isaaf)
                                         ); """

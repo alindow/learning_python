@@ -16,6 +16,8 @@ Datenbankbasiertes WM Programm für die Fußball-WM 2018
   4. Show Data
         * Gruppen angezeigt
         * Spiele angezeigt
+  5. Fair Play Data
+        + gelbe und rote Karten an Spiel
   
 (1) http://www.sqlitetutorial.net/sqlite-python/creating-database/
 
