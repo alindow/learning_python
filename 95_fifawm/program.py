@@ -66,7 +66,6 @@ def load_games(conn, filename):
 
 
 def show_groups(conn, sql_query):
-    c = conn.cursor()
     try:
         c = conn.cursor()
         cursor = c.execute(sql_query)
@@ -80,12 +79,64 @@ def show_groups(conn, sql_query):
 
 
 def show_games(conn, sql_query):
-    c = conn.cursor()
     try:
         c = conn.cursor()
         cursor = c.execute(sql_query)
         for row in cursor:
             print("{}\t{} {} - {} {}".format(row[0], row[1], row[2], row[3], row[4]))
+    except Error as e:
+        print(e)
+
+
+def show_list(conn, name):
+    try:
+        c = conn.cursor()
+        cursor = c.execute("select nation1, nation2, nation3,nation4 from gruppe where name = '{}'".format(name))
+        for nation in cursor:
+            for i in range(4):
+                print("nation[{}]: {}".format(i, nation[i]))
+                cursor2 = c.execute("select nation1, nation2, tore1, tore2, gelb1,rot1,gelb2,rot2 from spiel where nation1 = '{}' or nation2 = '{}'".format(nation[i],nation[i]))
+                punkte = 0
+                tore = 0
+                gegen_tore = 0
+                gelb = 0
+                rot = 0
+                for row in cursor2:
+                    print("{} - {}   {}:{}".format(row[0], row[1], row[2], row[3]))
+                    if row[2] == row[3]:
+                        punkte += 1
+                        gegen_tore += row[2]
+                        tore += row[3]
+                        if row[0] == nation[i]:
+                            gelb += row[4]
+                            rot += row[5]
+                        else:
+                            gelb += row[6]
+                            rot += row[7]
+                    elif row[0] == nation[i] and row[2] > row[3]:
+                        punkte += 3
+                        tore += row[2]
+                        gegen_tore += row[3]
+                        gelb += row[4]
+                        rot += row[5]
+                    elif row[1] == nation[i] and row[3] > row[2]:
+                        punkte += 3
+                        tore += row[3]
+                        gegen_tore += row[2]
+                        gelb += row[6]
+                        rot += row[7]
+                    elif row[0] == nation[i]:
+                        tore += row[2]
+                        gegen_tore += row[3]
+                        gelb += row[4]
+                        rot += row[5]
+                    elif row[3] == nation[i]:
+                        tore += row[3]
+                        gegen_tore += row[2]
+                        gelb += row[6]
+                        rot += row[7]
+
+                print("Nation {} hat {} Punkte, {} Tore geschossen und {} Tore kassiert. Gelbe Karten: {}, rote Karten: {}".format(nation[i], punkte, tore, gegen_tore, gelb, rot))
     except Error as e:
         print(e)
 
@@ -158,6 +209,14 @@ def main():
         show_groups(conn, sql_show_groups)
         show_games(conn, sql_show_games)
 
+        show_list(conn, 'A')
+        show_list(conn, 'B')
+        show_list(conn, 'C')
+        # show_list(conn, 'D')
+        # show_list(conn, 'E')
+        # show_list(conn, 'F')
+        # show_list(conn, 'G')
+        # show_list(conn, 'H')
         conn.close()
 
 
